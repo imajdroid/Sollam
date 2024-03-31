@@ -1,20 +1,11 @@
-package com.imajdroid.sollam.presentation.course
+package com.imajdroid.sollam.repository.course
 
-import android.util.Log
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.toMutableStateList
-import androidx.lifecycle.LifecycleCoroutineScope
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.imajdroid.sollam.Vals
 import com.imajdroid.sollam.pojo.Course
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 public class CourseViewModel(): ViewModel() {
@@ -41,6 +32,14 @@ public class CourseViewModel(): ViewModel() {
           _state.intValue = Vals.STATE_NOT_LOADING
       }
   }
+
+    fun getCoursesByCategory(categoryId: String){
+        viewModelScope.launch {
+            _state.intValue = Vals.STATE_LOADING
+            _courses.value = repo.getCoursesByCategory(categoryId)
+            _state.intValue = Vals.STATE_NOT_LOADING
+        }
+    }
 
 
 

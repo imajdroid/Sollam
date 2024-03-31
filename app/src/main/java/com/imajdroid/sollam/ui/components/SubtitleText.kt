@@ -10,6 +10,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.imajdroid.sollam.Vals
 
 
 @Composable
@@ -22,6 +23,8 @@ fun SubtitleText(modifier: Modifier = Modifier, text: String, paddingValues: Pad
         text = text,
         textAlign = TextAlign.Right,
         fontSize = 20.sp,
-        fontWeight = FontWeight.Bold
+        fontWeight = FontWeight.Bold,
+        fontFamily = Vals.tajwal
+
     )
 }

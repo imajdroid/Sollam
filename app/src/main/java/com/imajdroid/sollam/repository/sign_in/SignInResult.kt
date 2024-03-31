@@ -1,4 +1,4 @@
-package com.imajdroid.sollam.presentation.sign_in
+package com.imajdroid.sollam.repository.sign_in
 
 data class SignInResult(
     val data: UserData?,

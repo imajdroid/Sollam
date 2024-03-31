@@ -1,4 +1,4 @@
-package com.imajdroid.sollam.presentation.course
+package com.imajdroid.sollam.repository.course
 
 import com.imajdroid.sollam.pojo.Course
 

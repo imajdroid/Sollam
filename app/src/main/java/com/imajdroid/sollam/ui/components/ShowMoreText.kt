@@ -17,7 +17,7 @@ import androidx.compose.ui.text.style.TextOverflow
 
 
 import androidx.compose.ui.unit.sp
-
+import com.imajdroid.sollam.Vals
 
 
 @Composable
@@ -39,6 +39,7 @@ fun ShowMoreText(text:String = "",   preLines: Int = 2) {
         color = Color.Black.copy(alpha = 0.7f),
         fontSize = 16.sp,
         fontWeight = FontWeight.Medium,
+        fontFamily = Vals.tajwal,
         textAlign = TextAlign.Right,
         maxLines = if(showFullSDescription) 100 else preLines,
         overflow = TextOverflow.Ellipsis

@@ -10,20 +10,20 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.imajdroid.sollam.R
 import com.imajdroid.sollam.Vals
-import com.imajdroid.sollam.presentation.course.CourseViewModel
+import com.imajdroid.sollam.repository.course.CourseViewModel
 import com.imajdroid.sollam.ui.items.AnimatedBorderCard
 import com.imajdroid.sollam.ui.items.FullScreenCircularIndicator
 import com.imajdroid.sollam.ui.items.WideCardView
 
 
 @Composable
-fun StoreScreen(onNavigateToCourseDetails: (String) -> Unit){
+fun StoreCoursesListScreen(categoryId: String, onNavigateToCourseDetails: (String) -> Unit){
 
 
     val viewModel = viewModel<CourseViewModel>()
 
     LaunchedEffect(key1 = Unit) {
-        viewModel.getCourses()
+        viewModel.getCoursesByCategory(categoryId)
     }
 
     val courses = viewModel.courses

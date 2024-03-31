@@ -19,7 +19,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
-import com.imajdroid.sollam.presentation.sign_in.UserData
+import com.imajdroid.sollam.repository.sign_in.UserData
 
 
 @Composable
@@ -50,7 +50,7 @@ fun ProfileScreen(
             )
             Spacer(modifier = Modifier.height(16.dp))
             Button(onClick = {
-                onSignOut
+                onSignOut.invoke()
             }) {
                 Text(text = "Sign out")
             }

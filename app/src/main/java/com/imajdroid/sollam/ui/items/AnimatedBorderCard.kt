@@ -24,17 +24,23 @@ import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
+
 @Composable
 fun AnimatedBorderCard(
     modifier: Modifier = Modifier,
     shape: Shape = RoundedCornerShape(size = 15.dp),
     borderWidth: Dp = 2.dp,
-    gradient: Brush = Brush.sweepGradient(listOf(MaterialTheme.colorScheme.primary, Color.White, Color(240, 96, 121))),
-    animationDuration: Int = 10000,
-    onCardClick: () -> Unit,
+    gradient: Brush = Brush.sweepGradient(listOf(MaterialTheme.colorScheme.primary,Color.White,
+        MaterialTheme.colorScheme.primary,Color.White,
+        MaterialTheme.colorScheme.primary,Color.White,
+        MaterialTheme.colorScheme.primary,Color.White,
+        MaterialTheme.colorScheme.primary,Color.White,
+        MaterialTheme.colorScheme.primary,Color.White)),
+    animationDuration: Int = 30000,
+    onCardClick: () -> Unit = {},
     content: @Composable () -> Unit
     ){
-
+//    Color.White, Color(240, 96, 121
     val infiniteTransition = rememberInfiniteTransition(label = "infinite Color Animation")
     val degrees by infiniteTransition.animateFloat(
         initialValue = 0f,

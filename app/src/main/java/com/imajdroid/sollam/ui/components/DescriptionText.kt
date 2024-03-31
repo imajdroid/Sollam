@@ -10,6 +10,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.imajdroid.sollam.Vals
 
 
 @Composable
@@ -20,7 +21,8 @@ fun DescriptionText(text: String, paddingValues: PaddingValues = PaddingValues(1
         modifier = Modifier.fillMaxWidth()
             .padding(paddingValues),
         text = text,
-        textAlign = TextAlign.Right
+        textAlign = TextAlign.Right,
+        fontFamily = Vals.tajwal
 
     )
 

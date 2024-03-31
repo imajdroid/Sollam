@@ -36,24 +36,26 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.imajdroid.sollam.viewmodels.SignInViewModel
 
 
 @Composable
-fun SignInScreen(
+fun SignUpScreen(
     signInViewModel1: SignInViewModel? = null,
     onNavToHomeScreen: () -> Unit,
-    onNavToSignUpScreen: () -> Unit,
+    onNavToSignInScreen: () -> Unit,
+    onNavToAddStudentDataScreen: () -> Unit
 
     ){
 
+
+    onNavToAddStudentDataScreen.invoke()
     val signInViewModel = viewModel<SignInViewModel>()
 
     val signInUIState = signInViewModel.signInUIState
 
-    val isError = signInUIState.signInError != null
+    val isError = signInUIState?.signUpError != null
 
     val context = LocalContext.current
 
@@ -63,13 +65,13 @@ fun SignInScreen(
     ) {
 
         Text(
-            text = "تسجيل الدخول",
+            text = "إنشاء حساب",
             style = MaterialTheme.typography.headlineMedium,
 //            fontWeight = FontWeight.Black.weight,
             color = MaterialTheme.colorScheme.primary)
         
         if(isError){
-            Text(text = signInUIState.signInError ?: "حدث خطأ غير معروف",
+            Text(text = signInUIState?.signUpError ?: "حدث خطأ غير معروف",
                 color = Color.Red)
         }
 
@@ -77,8 +79,8 @@ fun SignInScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
-            value = signInUIState.email ?: "",
-            onValueChange = {ite->signInViewModel.onEmailChange(ite)},
+            value = signInUIState?.emailSignUp ?: "",
+            onValueChange = {signInViewModel?.onEmailSignUpChange(it)},
             leadingIcon = {
                 Icon(imageVector = Icons.Outlined.Email, contentDescription = "Email")
             },
@@ -94,8 +96,8 @@ fun SignInScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
-            value = signInUIState.password ?: "",
-            onValueChange = {signInViewModel.onPasswordChange(it)},
+            value = signInUIState?.passwordSignUp ?: "",
+            onValueChange = {signInViewModel?.onPasswordSignUpChange(it)},
             leadingIcon = {
                 Icon(imageVector = Icons.Outlined.Password, contentDescription = "password")
             },
@@ -107,8 +109,25 @@ fun SignInScreen(
             isError = isError
             )
 
-        Button(onClick = {signInViewModel.signIn(context)}) {
-            Text(text = "تسجيل الدخول")
+
+        OutlinedTextField(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            value = signInUIState?.confirmPasswordSignUp ?: "",
+            onValueChange = {signInViewModel?.onConfirmPasswordSignUpChange(it)},
+            leadingIcon = {
+                Icon(imageVector = Icons.Outlined.Password, contentDescription = "password")
+            },
+            label = {
+                Text(text = "أعد كتابة كلمة المرور")
+            },
+
+            visualTransformation = PasswordVisualTransformation(),
+            isError = isError
+        )
+        Button(onClick = {signInViewModel?.createUser(context)}) {
+            Text(text = "إنشاء الحساب")
         }
 
         Spacer(modifier = Modifier.size(16.dp))
@@ -119,19 +138,19 @@ fun SignInScreen(
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(text = "ليس لديك حساب؟")
+            Text(text = "لديك حساب بالفعل؟")
             Spacer(modifier = Modifier.size(8.dp))
-            TextButton(onClick = { onNavToSignUpScreen.invoke() }) {
-                Text(text = "إنشاء حساب")
+            TextButton(onClick = { onNavToSignInScreen.invoke() }) {
+                Text(text = "تسجيل الدخول")
             }
         }
     }
 
-    if(signInUIState.isLoading){
+    if(signInUIState?.isLoading == true){
         CircularProgressIndicator()
     }
     
-    LaunchedEffect(key1 = signInViewModel.hasUser){
+    LaunchedEffect(key1 = signInViewModel?.hasUser){
         if(signInViewModel?.hasUser == true)
             onNavToHomeScreen.invoke()
     }
@@ -140,8 +159,10 @@ fun SignInScreen(
 
 @Preview(showSystemUi = true)
 @Composable
-fun PrevSignInScreen(){
-    SignInScreen(onNavToHomeScreen = { /*TODO*/ }) {
+fun PrevSignUpScreen(){
+    SignUpScreen(onNavToHomeScreen = { },
+    onNavToSignInScreen = {}
+        ) {
         
     }
 

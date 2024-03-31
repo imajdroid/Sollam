@@ -1,5 +1,6 @@
 package com.imajdroid.sollam.ui.screens
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -16,8 +17,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.imajdroid.sollam.ui.items.AnimatedBorderCard
 
 @Preview
 @Composable
@@ -33,13 +36,15 @@ fun HomeScreen(){
             horizontalArrangement = Arrangement.SpaceAround
         ) {
             BasicCard{
-                Box(modifier = Modifier.fillMaxSize(),
+                Box(modifier = Modifier.fillMaxSize()
+                    .background(Color.White),
                     contentAlignment = Alignment.Center){
                     Text(text = "Awards")
                 }
             }
             BasicCard{
-                Box(modifier = Modifier.fillMaxSize(),
+                Box(modifier = Modifier.fillMaxSize()
+                    .background(Color.White),
                     contentAlignment = Alignment.Center){
                 Text(text = "Balance")
                 }
@@ -50,18 +55,25 @@ fun HomeScreen(){
             .fillMaxWidth()
             .padding(horizontal = 16.dp),
             horizontalArrangement = Arrangement.SpaceAround){
-            Card(
+            AnimatedBorderCard(
                 modifier = Modifier
                     .width(328.dp)
                     .height(200.dp)
-
             ) {
-                Box(modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center) {
-                    Text(text = "Progress")
+
+                Card(
+                    modifier = Modifier
+                        .fillMaxSize()
+                ) {
+                    Box(
+                        modifier = Modifier.fillMaxSize()
+                            .background(Color.White),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(text = "Progress")
+                    }
                 }
             }
-
         }
         
 
@@ -73,13 +85,16 @@ fun HomeScreen(){
             horizontalArrangement = Arrangement.SpaceAround
         ) {
             BasicCard{
-                Box(modifier = Modifier.fillMaxSize(),
+                Box(modifier = Modifier.fillMaxSize()
+                    .background(Color.White),
                     contentAlignment = Alignment.Center){
                     Text(text = "Courses")
                 }
             }
             BasicCard{
-                Box(modifier = Modifier.fillMaxSize(),
+                Box(modifier = Modifier.fillMaxSize()
+                    .background(Color.White)
+                    ,
                     contentAlignment = Alignment.Center){
                     Text(text = "Balance")
                 }
@@ -92,16 +107,19 @@ fun HomeScreen(){
 
 @Composable
 fun BasicCard( onClick: ()->Unit ={}, content:  @Composable() (ColumnScope.() -> Unit)){
-    Card(
+    AnimatedBorderCard(
         modifier = Modifier
             .width(164.dp)
             .height(164.dp)
-            .clickable {
-                onClick()
-            }
-
-
     ) {
-        content()
+        Card(
+            modifier = Modifier
+                .fillMaxSize()
+                .clickable {
+                    onClick()
+                }
+        ) {
+            content()
+        }
     }
 }

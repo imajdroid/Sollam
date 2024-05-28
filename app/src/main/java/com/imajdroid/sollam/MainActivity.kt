@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.text.googlefonts.GoogleFont
 import androidx.compose.ui.unit.LayoutDirection
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 
 import androidx.lifecycle.lifecycleScope
 import com.imajdroid.sollam.ui.navigations.MyNavHost
@@ -31,9 +32,13 @@ class MainActivity : ComponentActivity() {
 
 
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        installSplashScreen().apply {
+
+        }
 
 
         setContent {
@@ -42,6 +47,8 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
+
+
                 ) {
                     CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl ) {
                         MyNavHost(lifecycleScope = lifecycleScope, context = applicationContext)

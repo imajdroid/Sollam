@@ -1,5 +1,6 @@
 package com.imajdroid.sollam.repository.course
 
+import android.util.Log
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -8,36 +9,47 @@ import com.imajdroid.sollam.Vals
 import com.imajdroid.sollam.pojo.Course
 import kotlinx.coroutines.launch
 
-public class CourseViewModel(): ViewModel() {
+class CourseViewModel(): ViewModel() {
 
     private val repo = CourseImp()
 
     private var _courses = mutableStateOf(ArrayList<Course>())
+    private var _state=  mutableStateOf(true)
+
+
+    private val _isCourseOwned = mutableStateOf(false)
+    val isCourseOwned: Boolean
+        get()= _isCourseOwned.value
 
 
     val courses : List<Course>
         get() = _courses.value
 
-    private var _state=  mutableIntStateOf(Vals.STATE_NOT_LOADING)
 
-    val state : Int
-        get() = _state.intValue
+    val state : Boolean
+        get() = _state.value
 
 
     fun getCourses(){
-
       viewModelScope.launch {
-          _state.intValue = Vals.STATE_LOADING
+          _state.value = true
           _courses.value = repo.getCourses()
-          _state.intValue = Vals.STATE_NOT_LOADING
+          _state.value = false
       }
   }
 
+    fun getMyCourses(){
+        viewModelScope.launch {
+            _state.value = true
+            _courses.value = repo.getMyCourses()
+            _state.value = false
+        }
+    }
     fun getCoursesByCategory(categoryId: String){
         viewModelScope.launch {
-            _state.intValue = Vals.STATE_LOADING
+            _state.value = true
             _courses.value = repo.getCoursesByCategory(categoryId)
-            _state.intValue = Vals.STATE_NOT_LOADING
+            _state.value = false
         }
     }
 
@@ -50,11 +62,20 @@ public class CourseViewModel(): ViewModel() {
 
     fun getCourseById(courseId: String){
         viewModelScope.launch {
-            _state.intValue = Vals.STATE_LOADING
+            _state.value = true
             _singleCourse.value = repo.getCourseById(courseId)
-            _state.intValue = Vals.STATE_NOT_LOADING
+            _state.value = false
         }
+    }
 
+    fun getCourseAndCheckIfOwned(courseId: String){
+        viewModelScope.launch {
+            _state.value = true
+            _singleCourse.value = repo.getCourseById(courseId)
+            _isCourseOwned.value = repo.isCourseOwned(courseId)
+
+            _state.value = false
+        }
     }
 
 

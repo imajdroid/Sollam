@@ -66,7 +66,7 @@ class SignInViewModel(
 //                signInUIState.passwordSignUp == signInUIState.confirmPasswordSignUp
 
 
-    fun createUser(context: Context) = viewModelScope.launch {
+    fun createUser(context: Context, onSuccess: Unit) = viewModelScope.launch {
         try {
 
             if(!validateSignupForm()){
@@ -88,6 +88,7 @@ class SignInViewModel(
                 if(isSuccessful){
                     Toast.makeText(context, "تم إنشاء الحساب بنجاح", Toast.LENGTH_SHORT).show()
                     signInUIState = signInUIState.copy(isSuccessful = true)
+                    onSuccess
                 }else{
                     Toast.makeText(context, "فشل إنشاء الحساب، حاول مرة أخرى", Toast.LENGTH_SHORT).show()
                     signInUIState = signInUIState.copy(isSuccessful = false)

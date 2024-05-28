@@ -28,7 +28,7 @@ fun TitleText(text: String, paddingValues: PaddingValues = PaddingValues(16.dp))
         modifier = Modifier.fillMaxWidth()
             .padding(paddingValues),
         text = text,
-        textAlign = TextAlign.Right,
+        textAlign = TextAlign.Unspecified,
         fontSize = 25.sp,
         fontWeight = FontWeight.Bold,
         fontFamily = Vals.tajwal

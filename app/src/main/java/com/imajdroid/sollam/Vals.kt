@@ -3,6 +3,7 @@ package com.imajdroid.sollam
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.googlefonts.Font
 import androidx.compose.ui.text.googlefonts.GoogleFont
+import com.imajdroid.sollam.pojo.Student
 
 class Vals {
 
@@ -11,7 +12,7 @@ class Vals {
         val STATE_NOT_LOADING = 0
         val STATE_LOADING = 1
 
-
+        var student : Student? = null
 
         val provider = GoogleFont.Provider(
             providerAuthority = "com.google.android.gms.fonts",

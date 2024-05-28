@@ -50,7 +50,6 @@ fun SignUpScreen(
     ){
 
 
-    onNavToAddStudentDataScreen.invoke()
     val signInViewModel = viewModel<SignInViewModel>()
 
     val signInUIState = signInViewModel.signInUIState
@@ -126,7 +125,10 @@ fun SignUpScreen(
             visualTransformation = PasswordVisualTransformation(),
             isError = isError
         )
-        Button(onClick = {signInViewModel?.createUser(context)}) {
+        Button(onClick = {signInViewModel.createUser(
+            context,
+            onNavToAddStudentDataScreen.invoke()
+            )}) {
             Text(text = "إنشاء الحساب")
         }
 
@@ -146,14 +148,14 @@ fun SignUpScreen(
         }
     }
 
-    if(signInUIState?.isLoading == true){
+    if(signInUIState.isLoading){
         CircularProgressIndicator()
     }
     
-    LaunchedEffect(key1 = signInViewModel?.hasUser){
-        if(signInViewModel?.hasUser == true)
-            onNavToHomeScreen.invoke()
-    }
+//    LaunchedEffect(key1 = signInViewModel?.hasUser){
+//        if(signInViewModel?.hasUser == true)
+//            onNavToHomeScreen.invoke()
+//    }
 
 }
 

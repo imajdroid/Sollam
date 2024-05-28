@@ -1,5 +1,6 @@
 package com.imajdroid.sollam.ui.screens
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -17,57 +18,68 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.imajdroid.sollam.Vals
 import com.imajdroid.sollam.ui.items.AnimatedBorderCard
 
 @Composable
-fun CategoriesScreen(onNavigateToCourseDetails: (String) -> Unit){
+fun CategoriesScreen(onNavigateToCourseDetails: (String) -> Unit, onBackPressed: ()-> Unit){
+
+
+
 
     val cats = listOf(
-        Category("one", "الصف الأول"),
-        Category("two", "الصف الثاني"),
-        Category("three", "الصف الثالث"),
-        Category("four", "الصف الرابع"),
-        Category("five", "الصف الخامس"),
-        Category("six", "الصف السادس"),
-        Category("seven", "الصف السابع"),
-        Category("eight", "الصف الثامن"),
-        Category("nine", "الصف التاسع"),
-        Category("ten", "الصف الأول ثانوي"),
-        Category("eleven", "الصف الثاني ثانوي"),
-        Category("twelve", "الصف الثالث ثانوي")
+
+        Category("7", "الصف السابع"),
+        Category("8", "الصف الثامن"),
+        Category("9", "الصف التاسع"),
+        Category("10", "الصف الأول ثانوي"),
+        Category("11s", "الصف الثاني ثانوي - علمي"),
+        Category("11a", "الصف الثاني ثانوي - أدبي"),
+        Category("12s", "الصف الثالث ثانوي - علمي"),
+        Category("12a", "الصف الثالث ثانوي - أدبي")
+
+
     )
 
     val cells = GridCells.Adaptive(180.dp)
 
-    LazyVerticalGrid(columns = cells,
-    ){
-        items(cats){category->
-            AnimatedBorderCard(
-                modifier= Modifier
-                    .height(120.dp)
-                    .padding(4.dp)
+    Box(modifier = Modifier
+        .fillMaxSize(),
+        contentAlignment = Alignment.Center) {
+        LazyVerticalGrid(
+            columns = cells,
+        ) {
+            items(cats) { category ->
+                AnimatedBorderCard(
+                    modifier = Modifier
+                        .height(130.dp)
+                        .padding(4.dp)
                 ) {
-                    Card(modifier= Modifier
+                    Card(modifier = Modifier
                         .fillMaxSize()
                         .clickable {
                             onNavigateToCourseDetails(category.categoryId)
                         }
-                        ) {
+                    ) {
 
-                        Box(modifier = Modifier
-                            .fillMaxSize()
-                            .background(Color.White),
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .background(Color.White),
                             contentAlignment = Alignment.Center
 
-                        ){
-                            Text(text = category.categoryName,
+                        ) {
+                            Text(
+                                text = category.categoryName,
+                                fontFamily = Vals.tajwal,
                                 fontWeight = FontWeight.Bold
                             )
                         }
                     }
+                }
             }
         }
-     }
+    }
 }
 
 data class Category(

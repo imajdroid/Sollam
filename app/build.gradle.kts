@@ -6,6 +6,7 @@ plugins {
     kotlin("kapt")
     id("com.google.dagger.hilt.android")
     id("androidx.navigation.safeargs.kotlin")
+    id("com.google.firebase.crashlytics")
 
 }
 
@@ -71,6 +72,7 @@ dependencies {
     implementation("com.google.firebase:firebase-auth-ktx:22.3.1")
     implementation("com.google.firebase:firebase-firestore-ktx:24.11.0")
     implementation("androidx.core:core-ktx:1.12.0")
+    implementation("com.google.firebase:firebase-storage:20.3.0")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
@@ -81,7 +83,7 @@ dependencies {
 
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.7.0")
 
-    implementation("androidx.compose.material:material-icons-extended:1.6.4")
+    implementation("androidx.compose.material:material-icons-extended:1.6.5")
 
     val lifecycle_version = "2.7.0"
     val arch_version = "2.2.0"
@@ -136,13 +138,31 @@ dependencies {
 
     //Dagger-hilt
     implementation("com.google.dagger:hilt-android:2.48")
+    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
     kapt("com.google.dagger:hilt-android-compiler:2.48")
+    kapt("androidx.hilt:hilt-compiler:1.2.0")
 
     implementation("io.coil-kt:coil-compose:2.4.0")
 
     //Google fonts
     implementation("androidx.compose.ui:ui-text-google-fonts:1.6.4")
+    implementation("androidx.core:core-splashscreen:1.0.1")
 
+
+    //Video player
+    implementation("androidx.media3:media3-exoplayer:1.3.0")
+    implementation("androidx.media3:media3-ui:1.3.0")
+
+
+
+
+    // Import the BoM for the Firebase platform
+    implementation(platform("com.google.firebase:firebase-bom:32.8.0"))
+
+    // Add the dependencies for the Crashlytics and Analytics libraries
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation("com.google.firebase:firebase-crashlytics")
+    implementation("com.google.firebase:firebase-analytics")
 }
 
 kapt {

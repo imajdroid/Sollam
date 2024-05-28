@@ -1,5 +1,6 @@
 package com.imajdroid.sollam.ui.navigations
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -12,8 +13,12 @@ import com.imajdroid.sollam.ui.screens.CategoriesScreen
 import com.imajdroid.sollam.ui.screens.CourseDetailsScreen
 import com.imajdroid.sollam.ui.screens.HomeScreen
 import com.imajdroid.sollam.ui.screens.MyLearningScreen
+import com.imajdroid.sollam.ui.screens.OwnedCourseScreen
+import com.imajdroid.sollam.ui.screens.OwnedLessonsScreen
+import com.imajdroid.sollam.ui.screens.PlayLesson
 import com.imajdroid.sollam.ui.screens.ProfileScreen
 import com.imajdroid.sollam.ui.screens.StoreCoursesListScreen
+import com.imajdroid.sollam.ui.screens.SubscribeScreen
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
@@ -24,7 +29,7 @@ fun BottomNavGraph(navController: NavHostController
 ) {
 
     NavHost(navController = navController, route = "bottom",
-        startDestination = "home"){
+        startDestination = "my_learning"){
 
 
         //Home
@@ -35,23 +40,39 @@ fun BottomNavGraph(navController: NavHostController
 
         //My Learning
         composable(route= "my_learning"){
-            MyLearningScreen()
+
+
+
+            MyLearningScreen(
+                onNavToStore = {
+                navController.navigate("store")
+            },
+                onNavToCourse = { courseId: String->
+                    navController.navigate("owned_course/$courseId")
+                }
+
+
+            )
         }
 
 
         //Categories
         composable(route= "store"){
 
-            CategoriesScreen(){
-                 categoryId: String ->
+            CategoriesScreen(
+
+                onBackPressed = {
+                },
+                onNavigateToCourseDetails = {
+                        categoryId: String ->
                     navController.navigate("store_courses/$categoryId")
-            }
+                }
+
+            )
 //            StoreScreen() { courseId: String ->
 //                navController.navigate("course_details/$courseId")
 //            }
         }
-
-
         //Courses List
         composable(
             route = "store_courses/{category_id}",
@@ -68,6 +89,72 @@ fun BottomNavGraph(navController: NavHostController
 
         }
 
+        //Subscribe
+        composable(
+            route= "subscribe/{course_id}",
+            arguments= listOf(
+                navArgument("course_id"){
+                    type = NavType.StringType
+                }
+            )
+        ){
+            val courseId = it.arguments?.getString("course_id")
+            SubscribeScreen(courseId = courseId!!,
+                onNavToCourse = {
+                    Log.i("test", "Nav")
+                    navController.navigate("owned_course/$courseId")
+                })
+        }
+
+        //Owned_course
+        composable(
+            route = "owned_course/{course_id}",
+            arguments = listOf(
+                navArgument("course_id"){
+                    type = NavType.StringType
+                }
+            )
+        ){
+            val courseId = it.arguments?.getString("course_id") ?: ""
+            OwnedCourseScreen(courseId = courseId){ sectionId->
+                navController.navigate("owned_lessons/$courseId/$sectionId")
+            }
+        }
+
+        //Owned_Lessons
+        composable(
+            route = "owned_lessons/{course_id}/{section_id}",
+            arguments = listOf(
+                navArgument("course_id"){
+                    type = NavType.StringType
+                },
+                navArgument("section_id"){
+                    type = NavType.StringType
+                }
+            )
+        ){
+            val courseId = it.arguments?.getString("course_id") ?: ""
+            val sectionId = it.arguments?.getString("section_id") ?: ""
+
+            OwnedLessonsScreen(courseId = courseId, sectionId = sectionId){
+                //Play video
+                navController.navigate("play_lesson")
+            }
+        }
+
+        //play_lesson
+        composable(
+            route = "play_lesson",
+//            arguments = listOf(
+//                navArgument("category_id"){
+//                    type = NavType.StringType
+//                }
+//            )
+        ){
+//            val categoryId = it.arguments?.getString("category_id") ?:""
+            PlayLesson()
+
+        }
 
         //Course details
         composable(
@@ -79,11 +166,15 @@ fun BottomNavGraph(navController: NavHostController
             )
         ){
             val courseId = it.arguments?.getString("course_id") ?:""
-            CourseDetailsScreen(courseId = courseId)
-
+            CourseDetailsScreen(courseId = courseId,
+                onNavToCourse = {
+                                navController.navigate("owned_course/${courseId}")
+                },
+                onNavToSubscribe = {
+                    navController.navigate("subscribe/${courseId}")
+                }
+                )
         }
-
-
 
         //Profile
         composable(route= "profile"){

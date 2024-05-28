@@ -30,7 +30,7 @@ fun StoreCoursesListScreen(categoryId: String, onNavigateToCourseDetails: (Strin
     val state = viewModel.state
 
 
-    while(state == Vals.STATE_LOADING){
+    while(state){
         FullScreenCircularIndicator()
         return
     }
@@ -45,7 +45,7 @@ fun StoreCoursesListScreen(categoryId: String, onNavigateToCourseDetails: (Strin
             ) {
 
                 WideCardView(
-                    image = R.drawable.math,
+                    imageUrl = course.coverUrl,
                     title = course.title,
                     desc = "${course.price}",
                     onClick ={

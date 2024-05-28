@@ -1,18 +1,17 @@
 package com.imajdroid.sollam.viewmodels
 
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.setValue
-import com.imajdroid.sollam.Vals
+import androidx.lifecycle.viewModelScope
+import com.google.firebase.auth.FirebaseAuth
+import com.imajdroid.sollam.pojo.Student
+import com.imajdroid.sollam.repository.student.StudentImp
+import kotlinx.coroutines.launch
 
 class AddStudentDataViewModel(): ViewModel() {
-
-
-
-
-
 
     var studentDataState by mutableStateOf(StudentDataState())
         private set
@@ -43,8 +42,8 @@ class AddStudentDataViewModel(): ViewModel() {
     fun onPrivateStateChange(isPrivate: Boolean){
         studentDataState = studentDataState.copy(isPrivate = isPrivate)
     }
-    fun onSchoolIdChange(schoolId: String, schoolName: String){
-        studentDataState = studentDataState.copy(schoolId = schoolId, schoolName = schoolName)
+    fun onSchoolNameChange(schoolName: String){
+        studentDataState = studentDataState.copy(schoolName = schoolName)
     }
 
     fun onGradeIdChange(gradeId: String, gradeName: String){
@@ -90,7 +89,7 @@ class AddStudentDataViewModel(): ViewModel() {
         studentDataState.cityId.isNotBlank()
 
     fun validateSchool() =
-        studentDataState.schoolId.isNotBlank()
+        studentDataState.schoolName.isNotBlank()
 
     fun validateGrade() =
         studentDataState.gradeId.isNotBlank()
@@ -98,6 +97,39 @@ class AddStudentDataViewModel(): ViewModel() {
     fun validatePhoneNumber() =
         studentDataState.phoneNumber.isNotBlank()
 
+
+
+    private val _success = mutableStateOf(false)
+
+    val success: Boolean
+        get() = _success.value
+
+    fun postNewStudentData(){
+        val repo = StudentImp()
+
+        val student = Student()
+        student.studentId = FirebaseAuth.getInstance().currentUser!!.uid
+        student.firstName = studentDataState.firstName
+        student.secondName = studentDataState.secondName
+        student.thirdName = studentDataState.thirdName
+        student.surname = studentDataState.surname
+        student.cityName = studentDataState.cityName
+        student.cityId = studentDataState.cityId
+        student.isPrivate = studentDataState.isPrivate
+        student.schoolName = studentDataState.schoolName
+        student.gradeId = studentDataState.gradeId
+        student.gradeName = studentDataState.gradeName
+        student.phoneNumber = studentDataState.phoneNumber
+        student.profilePictureUrl = studentDataState.profilePictureUrl
+        student.email = FirebaseAuth.getInstance().currentUser?.email!!
+
+
+        viewModelScope.launch {
+            _success.value = repo.addNewStudentData(student)
+            Log.i("test", _success.toString())
+
+        }
+    }
 
     data class StudentDataState(
         val firstName: String = "",

@@ -4,6 +4,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.compose.ui.platform.LocalContext
 import com.google.firebase.Firebase
+import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.auth.auth
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
@@ -28,6 +29,7 @@ class AuthRepository {
     ) = withContext(Dispatchers.IO)
 
     {
+
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener{
                 if(it.isSuccessful){

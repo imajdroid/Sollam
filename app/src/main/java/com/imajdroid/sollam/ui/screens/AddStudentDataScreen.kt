@@ -1,6 +1,7 @@
 package com.imajdroid.sollam.ui.screens
 
 import android.graphics.drawable.Icon
+import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -20,6 +21,9 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.outlined.AccountCircle
+import androidx.compose.material.icons.outlined.Phone
+import androidx.compose.material.icons.outlined.School
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
@@ -56,21 +60,19 @@ import com.imajdroid.sollam.Vals
 import com.imajdroid.sollam.pojo.City
 import com.imajdroid.sollam.pojo.School
 import com.imajdroid.sollam.repository.city.CityViewModel
-import com.imajdroid.sollam.repository.school.SchoolViewModel
 import com.imajdroid.sollam.viewmodels.AddStudentDataViewModel
 import kotlinx.coroutines.launch
 
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun AddStudentDataScreen(){
+fun AddStudentDataScreen(onNavToMain: () -> Unit){
 
 
 
 
 
     val vm = viewModel<AddStudentDataViewModel>()
-    val schoolViewModel = viewModel<SchoolViewModel>()
 
     val state = vm.studentDataState
 
@@ -84,9 +86,12 @@ fun AddStudentDataScreen(){
     }
 
 
+    if(vm.success){
+        onNavToMain()
+    }
+
     val cities = citiesViewModel.cities
 
-    var schools = schoolViewModel.schools
 
     val alpha = arrayOf('ا','ب','ت','ث','ج','ح','خ','د','ذ','ر','ز','س','ش','ص','ض','ط','ظ','ع','غ','ف','ق','ك','ل','م','ن','ه','و','ي','أ','إ',)
 
@@ -107,6 +112,7 @@ fun AddStudentDataScreen(){
             text = text,
             fontSize = 35.sp,
             textAlign = TextAlign.Right,
+            fontFamily = Vals.tajwal,
             color = MaterialTheme.colorScheme.primary
         )
     }
@@ -135,6 +141,7 @@ fun AddStudentDataScreen(){
                 modifier = Modifier
                     .padding(16.dp),
                 text = text,
+                fontFamily = Vals.tajwal,
                 fontSize = 25.sp
 
 
@@ -151,30 +158,7 @@ fun AddStudentDataScreen(){
 
 
 
-    @Composable
-    fun SchoolTypeLazyColumn(
-        modifier: Modifier = Modifier,
-    ){
 
-        LazyColumn(modifier){
-
-            val privateSchool = "private"
-            val publicSchool = "public"
-
-            item {
-                ColumnRadioItem(text = "في مدرسة خاصة",
-                    itemId = privateSchool,
-                    selected = state.isPrivate,
-                    onItemClick = {vm.onPrivateStateChange(true)})
-
-
-                ColumnRadioItem(text = "في مدرسة عامة",
-                    itemId =  publicSchool,
-                    selected = !state.isPrivate,
-                    onItemClick = {vm.onPrivateStateChange(false)})
-            }
-        }
-    }
 
 
 
@@ -205,6 +189,7 @@ fun AddStudentDataScreen(){
                 ColumnRadioItem(text = "السابع",
                     itemId = seventh,
                     selected = state.gradeId == seventh,
+
                     onItemClick = {vm.onGradeIdChange(seventh, "السابع") })
 
                 ColumnRadioItem(text = "الثامن",
@@ -277,6 +262,7 @@ fun AddStudentDataScreen(){
             text = text,
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold,
+            fontFamily = Vals.tajwal
 
 
             )
@@ -312,25 +298,25 @@ fun AddStudentDataScreen(){
 
 
 
-    @Composable
-    fun SchoolLazyColumn(categories: List<SchoolCharCategory>) {
-        LazyColumn(modifier = Modifier.padding(0.dp, 0.dp, 0.dp, 60.dp)) {
-            categories.forEach { category ->
-                stickyHeader {
-                    CategoryHeader(text = category.name,)
-                }
-                items(category.items) { school ->
-                    ColumnRadioItem(
-                        text = school.schoolName,
-                        itemId = school.schoolId,
-                        selected = state.schoolId == school.schoolId
-                    ) {
-                        vm.onSchoolIdChange(it, schoolName = school.schoolName)
-                    }
-                }
-            }
-        }
-    }
+//    @Composable
+//    fun SchoolLazyColumn(categories: List<SchoolCharCategory>) {
+//        LazyColumn(modifier = Modifier.padding(0.dp, 0.dp, 0.dp, 60.dp)) {
+//            categories.forEach { category ->
+//                stickyHeader {
+//                    CategoryHeader(text = category.name,)
+//                }
+//                items(category.items) { school ->
+//                    ColumnRadioItem(
+//                        text = school.schoolName,
+//                        itemId = school.schoolId,
+//                        selected = state.schoolId == school.schoolId
+//                    ) {
+//                        vm.onSchoolIdChange(it, schoolName = school.schoolName)
+//                    }
+//                }
+//            }
+//        }
+//    }
 
 
 
@@ -352,51 +338,72 @@ fun AddStudentDataScreen(){
                     modifier = Modifier.padding(0.dp, 8.dp),
                     singleLine = true,
                     value = state.firstName,
+                    leadingIcon = {
+                                  Icon(Icons.Outlined.AccountCircle, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
+                    },
                     onValueChange = {
                         if(it.length <= 15)
                             vm.onFirstNameChange(it)
                                     },
-                    placeholder = {
-                        Text(text = "الإسم الأول")
+                    label = {
+                        Text(text = "الإسم الأول" ,
+                            fontFamily = Vals.tajwal,
+                        )
                     },
+
                     isError = state.namesError
                 )
 
                 OutlinedTextField(
-                    modifier = Modifier.padding(16.dp),
+                    modifier = Modifier.padding(8.dp),
                     value = state.secondName,
                     singleLine = true,
+                    leadingIcon = {
+                        Icon(Icons.Outlined.AccountCircle, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
+                    },
                     onValueChange = {
                         if(it.length <= 15)
                             vm.onSecondNameChange(it)},
-                    placeholder = {
-                        Text(text = "إسم الأب")
+                    label = {
+                        Text(text = "إسم الأب",
+                            fontFamily = Vals.tajwal,
+                        )
                     },
                     isError = state.namesError
                 )
 
                 OutlinedTextField(
-                    modifier = Modifier.padding(16.dp),
+                    modifier = Modifier.padding(8.dp),
                     value = state.thirdName,
                     singleLine = true,
+                    leadingIcon = {
+                        Icon(Icons.Outlined.AccountCircle, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
+                    },
                     onValueChange = {
                         if(it.length <= 15)
                             vm.onThirdNameChange(it)},
-                    placeholder = {
-                        Text(text = "إسم الجد")
+                    label = {
+                        Text(text = "إسم الجد",
+                            fontFamily = Vals.tajwal,
+                        )
                     },
                     isError = state.namesError
                 )
 
                 OutlinedTextField(
-                    modifier = Modifier.padding(16.dp),
+                    modifier = Modifier.padding(8.dp),
                     value = state.surname,
                     singleLine = true,
+                    leadingIcon = {
+                        Icon(Icons.Outlined.AccountCircle, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
+                    },
                     onValueChange = {
                         if(it.length <= 15)
                             vm.onSurnameChange(it)},
-                    placeholder = {
-                        Text(text = "اللقب")
+                    label = {
+                        Text(text = "اللقب",
+                            fontFamily = Vals.tajwal,
+                        )
                     },
                     isError = state.namesError
 
@@ -455,65 +462,64 @@ fun AddStudentDataScreen(){
         }
     }
 
-    @Composable
-    fun PrivateOrPublicPage() {
 
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-        ) {
-            Title(text = "أين تدرس؟")
-            HorizontalDivider(modifier = Modifier.fillMaxWidth())
-            SchoolTypeLazyColumn()
-        }
-    }
 
 
 
     @Composable
     fun SchoolPage() {
 
-
         Scaffold(
-
-
             topBar = {
                      TopAppBar(
-                         title = { Title(text = "المدرسة")},
-                         actions = {
-                             IconButton(
-                                 onClick = {}) {
-                                 Icon(Icons.Filled.Add, "Add")
-                             }
+                         title = { Title(text = "أين تدرس؟")},
 
-                             IconButton(onClick = {}
-                             ) {
-                                Icon(Icons.Filled.Search, "Search")
-                             }
-                         }
                      )
             },
 
-            content = {
+            content = { it ->
+
+
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(it)
+                        .padding(it),
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
 
-                    val charCats = ArrayList<SchoolCharCategory>()
 
-                    for (a in alpha) {
-                        val abSchools = ArrayList<School>()
-                        for (school in schools) {
-                            if (school.schoolName.startsWith(a)) {
-                                abSchools.add(school)
-                            }
+                    LazyColumn(){
+
+                        val privateSchool = "private"
+                        val publicSchool = "public"
+
+                        item {
+                            ColumnRadioItem(text = "في مدرسة خاصة",
+                                itemId = privateSchool,
+                                selected = state.isPrivate,
+                                onItemClick = {vm.onPrivateStateChange(true)})
+
+
+                            ColumnRadioItem(text = "في مدرسة عامة",
+                                itemId =  publicSchool,
+                                selected = !state.isPrivate,
+                                onItemClick = {vm.onPrivateStateChange(false)})
                         }
-                        if (abSchools.isNotEmpty())
-                            charCats.add(SchoolCharCategory(a.toString(), abSchools))
                     }
-                    SchoolLazyColumn(charCats)
+
+
+                    OutlinedTextField(
+                        
+                        value = state.schoolName,
+                        label = {
+                            Text(text = "اسم المدرسة")
+                        },
+                        leadingIcon = {
+                            Icon(Icons.Outlined.School, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
+                        },
+                        isError = state.schoolError,
+                        singleLine = true,
+                        onValueChange = {vm.onSchoolNameChange(schoolName= it)})
                 }
             }
         )
@@ -584,17 +590,25 @@ fun AddStudentDataScreen(){
             OutlinedTextField(
                 modifier = Modifier
                     .fillMaxWidth(),
+
                 label = {
-                    Text(text = "رقم الهاتف")
+                    Text(text = "رقم الهاتف",
+                        fontFamily = Vals.tajwal,
+                    )
                 },
 
+
+                leadingIcon = {
+                    Icon(Icons.Outlined.Phone, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
+                },
                 value = state.phoneNumber,
                 singleLine = true,
                 isError = state.phoneNumberError,
                 onValueChange = {
                     if(it.length <= 10)
                         vm.onPhoneNumberChange(it)
-                })
+                },)
+
 
         }
     }
@@ -603,6 +617,14 @@ fun AddStudentDataScreen(){
         initialPage = 0,
         pageCount = {7}
     )
+
+
+
+    fun post() {
+        Log.i("test","inside from the screen")
+        vm.postNewStudentData()
+    }
+
 
     CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
 
@@ -629,7 +651,9 @@ fun AddStudentDataScreen(){
                                         pagerState.animateScrollToPage(pagerState.currentPage - 1)
                                 }
                             },) {
-                            Text(text = "رجوع")
+                            Text(text = "رجوع",
+                                fontFamily = Vals.tajwal,
+                            )
                         }
 
                         Button(
@@ -659,48 +683,40 @@ fun AddStudentDataScreen(){
                                             }
                                         }
                                         2->{
-                                            vm.setLoadingState(true)
-
-                                            schoolViewModel.getCategorizedSchoolsOfCity(
-                                                state.cityId, state.isPrivate
-                                            )
-
-                                            vm.setLoadingState(false)
-
-                                            schools = schoolViewModel.schools
-                                            pagerState.animateScrollToPage(3)
-
-                                        }
-                                        3->{
                                             if(vm.validateSchool())
-                                                pagerState.animateScrollToPage(4)
+                                                pagerState.animateScrollToPage(3)
                                             else{
                                                 vm.setSchoolError(true)
 
-                                            }
-                                        }
-                                        4->{
+                                            }                                        }
+                                        3->{
                                             if(vm.validateGrade()){
-                                                pagerState.animateScrollToPage(5)
+                                                pagerState.animateScrollToPage(4)
 
                                             }else{
                                                 vm.setGradeError(true)
 
                                             }
                                         }
-                                        5-> {
+                                        4->{
                                             if (vm.validatePhoneNumber()) {
-                                                pagerState.animateScrollToPage(6)
+                                                pagerState.animateScrollToPage(5)
                                             } else {
                                                 vm.setPhoneNumberError(true)
-
                                             }
                                         }
+
+                                        5->{
+                                            post()
+                                        }
+
                                     }
                                 }
                             }
                             ,) {
-                            Text(text = "التالي")
+                            Text(text = "التالي",
+                                fontFamily = Vals.tajwal,
+                            )
                         }
                     }
 
@@ -726,11 +742,10 @@ fun AddStudentDataScreen(){
                     when (page) {
                         0 -> NamesPage()
                         1 -> CityPage(cities)
-                        2 -> PrivateOrPublicPage()
-                        3 -> SchoolPage()
-                        4 -> GradePage()
-                        5 -> ContactPage()
-                        6 -> SummaryPage()
+                        2 ->SchoolPage()
+                        3 -> GradePage()
+                        4 -> ContactPage()
+                        5 -> SummaryPage()
                     }
                 }
             }
@@ -743,17 +758,8 @@ fun AddStudentDataScreen(){
 
 
 
-
-
-
-
-
-
-
-
-
 @Preview
 @Composable
 fun AddStudentDataScreenPrev(){
-    AddStudentDataScreen()
+//    AddStudentDataScreen()
 }

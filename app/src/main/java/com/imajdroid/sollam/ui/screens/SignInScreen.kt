@@ -38,6 +38,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.imajdroid.sollam.Vals
 import com.imajdroid.sollam.viewmodels.SignInViewModel
 
 
@@ -64,12 +65,14 @@ fun SignInScreen(
 
         Text(
             text = "تسجيل الدخول",
+            fontFamily = Vals.tajwal,
             style = MaterialTheme.typography.headlineMedium,
 //            fontWeight = FontWeight.Black.weight,
             color = MaterialTheme.colorScheme.primary)
         
         if(isError){
             Text(text = signInUIState.signInError ?: "حدث خطأ غير معروف",
+                fontFamily = Vals.tajwal,
                 color = Color.Red)
         }
 
@@ -83,7 +86,9 @@ fun SignInScreen(
                 Icon(imageVector = Icons.Outlined.Email, contentDescription = "Email")
             },
             label = {
-                Text(text = "البريد الإلكتروني")
+                Text(text = "البريد الإلكتروني",
+                    fontFamily = Vals.tajwal,
+                )
             },
             isError = isError
         )
@@ -100,7 +105,9 @@ fun SignInScreen(
                 Icon(imageVector = Icons.Outlined.Password, contentDescription = "password")
             },
             label = {
-                Text(text = "كلمة المرور")
+                Text(text = "كلمة المرور",
+                    fontFamily = Vals.tajwal,
+                )
             },
 
             visualTransformation = PasswordVisualTransformation(),
@@ -108,7 +115,9 @@ fun SignInScreen(
             )
 
         Button(onClick = {signInViewModel.signIn(context)}) {
-            Text(text = "تسجيل الدخول")
+            Text(text = "تسجيل الدخول",
+                fontFamily = Vals.tajwal,
+            )
         }
 
         Spacer(modifier = Modifier.size(16.dp))
@@ -119,10 +128,14 @@ fun SignInScreen(
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(text = "ليس لديك حساب؟")
+            Text(text = "ليس لديك حساب؟",
+                fontFamily = Vals.tajwal
+            )
             Spacer(modifier = Modifier.size(8.dp))
             TextButton(onClick = { onNavToSignUpScreen.invoke() }) {
-                Text(text = "إنشاء حساب")
+                Text(text = "إنشاء حساب",
+                    fontFamily = Vals.tajwal
+                )
             }
         }
     }
@@ -131,10 +144,10 @@ fun SignInScreen(
         CircularProgressIndicator()
     }
     
-    LaunchedEffect(key1 = signInViewModel.hasUser){
-        if(signInViewModel?.hasUser == true)
-            onNavToHomeScreen.invoke()
-    }
+//    LaunchedEffect(key1 = signInViewModel.hasUser){
+//        if(signInViewModel?.hasUser == true)
+//            onNavToHomeScreen.invoke()
+//    }
 
 }
 

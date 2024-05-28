@@ -10,15 +10,14 @@ class CityImp {
     suspend fun getCities(): ArrayList<City>{
         val cities = ArrayList<City>()
 
-        FirebaseFirestore.getInstance()
+        val snapshot = FirebaseFirestore.getInstance()
             .collection("cities")
-            .get().addOnSuccessListener{
+            .get().await()
 
-                    for (doc in it.documents){
-                        val city = doc.toObject(City::class.java)
-                        cities.add(city!!)
-                    }
-            }.await()
+        for (doc in snapshot.documents){
+            val city = doc.toObject(City::class.java)
+            cities.add(city!!)
+        }
         return cities
     }
 

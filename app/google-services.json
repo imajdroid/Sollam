@@ -1,36 +1,45 @@
 {
   "project_info": {
-    "project_number": "866036084597",
-    "project_id": "sollam-8f377",
-    "storage_bucket": "sollam-8f377.appspot.com"
+    "project_number": "362469949574",
+    "project_id": "eschool-696bb",
+    "storage_bucket": "eschool-696bb.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:866036084597:android:e03b53eae0151f8044ed3c",
+        "mobilesdk_app_id": "1:362469949574:android:bc4518c5e1fbb9e93c5107",
         "android_client_info": {
-          "package_name": "com.imajdroid.sollam"
+          "package_name": "com.imajdroid.eschool"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "866036084597-02gvnhdalqotbgi92eo6hsbpo0o8fkmm.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBZQCUy0L5MeohRMSkt1ZzyDx9S9n-8vZg"
+          "current_key": "AIzaSyAWWJ08k99gLoV5dLPKKH7rjyakHT9TJNY"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "866036084597-02gvnhdalqotbgi92eo6hsbpo0o8fkmm.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:362469949574:android:8c6b0f9bb88494573c5107",
+        "android_client_info": {
+          "package_name": "com.imajdroid.sollam"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAWWJ08k99gLoV5dLPKKH7rjyakHT9TJNY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
         }
       }
     }

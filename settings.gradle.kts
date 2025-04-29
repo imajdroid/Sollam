@@ -14,6 +14,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Sollam"
+rootProject.name = "ESchool"
 include(":app")
  

@@ -27,7 +27,7 @@ import com.imajdroid.eschool.ui.items.FullScreenCircularIndicator
 import com.imajdroid.eschool.ui.items.WideCardView
 
 @Composable
-fun MyLearningScreen(onNavToStore:() -> Unit
+fun MyLearningScreen(onNavToSubscribe:() -> Unit
 , onNavToCourse: (String) -> Unit
 ){
 
@@ -91,7 +91,7 @@ fun MyLearningScreen(onNavToStore:() -> Unit
                 Button(
                     onClick = {
 
-                        onNavToStore.invoke()
+                        onNavToSubscribe.invoke()
 
                     }) {
                     Text(

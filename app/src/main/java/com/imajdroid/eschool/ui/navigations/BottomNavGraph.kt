@@ -44,8 +44,8 @@ fun BottomNavGraph(navController: NavHostController
 
 
             MyLearningScreen(
-                onNavToStore = {
-                navController.navigate("store")
+                onNavToSubscribe = {
+                navController.navigate("subscribe")
             },
                 onNavToCourse = { courseId: String->
                     navController.navigate("owned_course/$courseId")
@@ -91,19 +91,10 @@ fun BottomNavGraph(navController: NavHostController
 
         //Subscribe
         composable(
-            route= "subscribe/{course_id}",
-            arguments= listOf(
-                navArgument("course_id"){
-                    type = NavType.StringType
-                }
-            )
+            route= "subscribe",
+
         ){
-            val courseId = it.arguments?.getString("course_id")
-            SubscribeScreen(courseId = courseId!!,
-                onNavToCourse = {
-                    Log.i("test", "Nav")
-                    navController.navigate("owned_course/$courseId")
-                })
+            SubscribeScreen()
         }
 
         //Owned_course

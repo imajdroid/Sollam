@@ -29,14 +29,14 @@ import com.imajdroid.eschool.Vals
 import com.imajdroid.eschool.viewmodels.SubscribeViewModel
 
 @Composable
-fun SubscribeScreen(courseId: String, onNavToCourse: () -> Unit){
+fun SubscribeScreen(){
 
 
     val vm = viewModel<SubscribeViewModel>()
 
-
-    if(vm.result["success"] == true)
-        onNavToCourse()
+//
+//    if(vm.result["success"] == true)
+//        onNavToCourse()
 
 
 
@@ -85,7 +85,7 @@ fun SubscribeScreen(courseId: String, onNavToCourse: () -> Unit){
                 .padding(16.dp),
 
             onClick = {
-                vm.subscribe(courseId)
+                vm.subscribe()
 
             
         }) {

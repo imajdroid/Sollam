@@ -28,9 +28,9 @@ class SubscribeViewModel: ViewModel() {
     val success: Boolean
         get() = _success.value
 
-    fun subscribe(courseId: String){
+    fun subscribe(){
         viewModelScope.launch {
-            _result.value = repo.subscribe(code, courseId)
+            _result.value = repo.subscribe(code)
 
         }
     }

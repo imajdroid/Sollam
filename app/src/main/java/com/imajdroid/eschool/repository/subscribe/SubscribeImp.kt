@@ -10,7 +10,7 @@ class SubscribeImp {
 
 
 
-    suspend fun subscribe(code: String, courseId: String): HashMap<String, Any> {
+    suspend fun subscribe(code: String): HashMap<String, Any> {
 
         var result = HashMap<String, Any>()
 

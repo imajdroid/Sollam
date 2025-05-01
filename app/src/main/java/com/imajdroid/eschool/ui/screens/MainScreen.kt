@@ -1,15 +1,12 @@
 package com.imajdroid.eschool.ui.screens
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
@@ -27,6 +24,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -41,6 +39,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.painter.Painter
@@ -147,59 +146,60 @@ fun TopBar(navController: NavController){
                 Text(
                     modifier = Modifier
                         .padding(horizontal = 2.dp),
-                    text = "سُلم",
+                    text = "المدرسة الإلكترونية",
                     fontFamily = Vals.tajwal,
                     )
                 Icon(imageVector = Icons.Outlined.StackedLineChart, contentDescription = null)
 
             }
         },
-        navigationIcon = {
-            IconButton(
-                modifier = Modifier
-                    .clip(
-                        RoundedCornerShape(200.dp)
-                    ),
-                onClick = {}) {
-//                Icon(imageVector = Icons.Default.Menu,
-//                    contentDescription = "Menu icon")
 
-
-                if(FirebaseAuth.getInstance().currentUser!!.photoUrl.toString().isBlank()) {
-                    AsyncImage(
-
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(300.dp),
-                        model = Vals.student?.profilePictureUrl,
-                        contentScale = ContentScale.Crop,
-                        contentDescription = ""
-
-                    )
-                }else{
-
-                    Image(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(300.dp),
-                        contentScale = ContentScale.Crop,
-                        painter = painterResource(id = R.drawable.default_profile_picture),
-
-                        contentDescription = null)
-//                    Box(modifier = Modifier
-//                        .width(250.dp)
-//                        .height(250.dp)
-//                        .border(1.dp, MaterialTheme.colorScheme.primary, CircleShape),
-//                        contentAlignment = Alignment.Center
-//                        ) {
-//                        Icon(
-////                            modifier = Modifier.padding(4.dp),
-//                            imageVector = Icons.Filled.Person, contentDescription = null,
-//                            tint = MaterialTheme.colorScheme.primary)
-//                    }
-                }
-            }
-        },
+//        navigationIcon = {
+//            IconButton(
+//                modifier = Modifier
+//                    .clip(
+//                        RoundedCornerShape(200.dp)
+//                    ),
+//                onClick = {}) {
+////                Icon(imageVector = Icons.Default.Menu,
+////                    contentDescription = "Menu icon")
+//
+//
+//                if(FirebaseAuth.getInstance().currentUser!!.photoUrl.toString().isBlank()) {
+//                    AsyncImage(
+//
+//                        modifier = Modifier
+//                            .fillMaxWidth()
+//                            .height(300.dp),
+//                        model = Vals.student?.profilePictureUrl,
+//                        contentScale = ContentScale.Crop,
+//                        contentDescription = ""
+//
+//                    )
+//                }else{
+//
+//                    Image(
+//                        modifier = Modifier
+//                            .fillMaxWidth()
+//                            .height(300.dp),
+//                        contentScale = ContentScale.Crop,
+//                        painter = painterResource(id = R.drawable.default_profile_picture),
+//
+//                        contentDescription = null)
+////                    Box(modifier = Modifier
+////                        .width(250.dp)
+////                        .height(250.dp)
+////                        .border(1.dp, MaterialTheme.colorScheme.primary, CircleShape),
+////                        contentAlignment = Alignment.Center
+////                        ) {
+////                        Icon(
+//////                            modifier = Modifier.padding(4.dp),
+////                            imageVector = Icons.Filled.Person, contentDescription = null,
+////                            tint = MaterialTheme.colorScheme.primary)
+////                    }
+//                }
+//            }
+//        },
 //        actions = {
 //            IconButton(onClick = {}) {
 //                Icon(imageVector = Icons.Outlined.FavoriteBorder,
@@ -207,10 +207,9 @@ fun TopBar(navController: NavController){
 //            }
 //        },
         colors = TopAppBarDefaults.topAppBarColors(
-//            containerColor = Color(0xFFe0a8a5)
-            containerColor = MaterialTheme.colorScheme.surfaceVariant,
-            titleContentColor = MaterialTheme.colorScheme.primary,
-            navigationIconContentColor = MaterialTheme.colorScheme.primary,
+            containerColor = Color(0xFF1976D2), // أزرق رئيسي
+            titleContentColor = Color.White,
+            navigationIconContentColor = Color.White
         )
 
     )
@@ -239,7 +238,7 @@ val items = listOf(
 
     ),
     BottomNavigationItem(
-        title = "المتجر",
+        title = "المعرض",
         selectedIcon = rememberVectorPainter(image = Icons.Filled.ShoppingCart),
         unSelectedIcon = rememberVectorPainter(image = Icons.Outlined.ShoppingCart),
         destination = "store"
@@ -284,11 +283,24 @@ val items = listOf(
 
     NavigationBar(
         modifier = Modifier
-            .clip(RoundedCornerShape(20.dp))
+            .clip(RoundedCornerShape(20.dp)),
+
+        containerColor =  Color(0xFFE3F2FD)
+
     ) {
+
        items.forEachIndexed{index, item->
            NavigationBarItem(
                selected = selectedItemIndex == index,
+               colors = NavigationBarItemDefaults.colors(
+                   indicatorColor = MaterialTheme.colorScheme.secondary,
+                   unselectedIconColor = MaterialTheme.colorScheme.outline,
+                   unselectedTextColor = MaterialTheme.colorScheme.outline,
+
+                   selectedIconColor = Color.White,
+                   selectedTextColor = Color.White,
+
+               ),
                onClick = {
                    selectedItemIndex = index
                    navController.navigate(item.destination){

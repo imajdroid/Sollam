@@ -8,6 +8,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.google.firebase.auth.FirebaseAuth
+import com.imajdroid.eschool.Vals
 import com.imajdroid.eschool.repository.student.StudentViewModel
 import com.imajdroid.eschool.ui.items.FullScreenCircularIndicator
 
@@ -37,13 +38,11 @@ fun MyNavHost(lifecycleScope: LifecycleCoroutineScope, context: Context){
     var authStartDestination = "sign_in"
 
 
-    if (user != null && student.studentId.isNotBlank()) {
+    if (user != null) {
+        Vals.student = student
         startDestination = "main"
-    } else if (user != null && student.studentId.isBlank()) {
-        startDestination = "auth"
-        //authStartDestination = "add_student_data"
 
-    } else {
+    }else {
         startDestination = "auth"
         authStartDestination = "sign_in"
     }
